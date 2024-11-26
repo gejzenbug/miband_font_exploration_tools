@@ -1,0 +1,9 @@
+[project]
+name = "miband_font_exploration_tools"
+version = "0.0.1"
+authors = [
+    { name="Aleksandr Nagovitsyn", email="gejzenbug@gmail.com" }
+]
+dependencies = [
+    "kaitaistruct>=0.9"
+]
