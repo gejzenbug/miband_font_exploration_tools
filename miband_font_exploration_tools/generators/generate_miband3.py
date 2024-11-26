@@ -50,28 +50,20 @@ def number_to_glyph(
     rest_bits_count += actual_size.w - max_width
     virtual_height = ceil(actual_size.h / virtual_pixel_size.h)
 
-    # print(virtual_width, virtual_height, rest_bits_count)
-
-    # bin_(number, virtual_width * virtual_height, virtual_width)
-
     virtual_pixel_bits = 2 ** virtual_pixel_size.w - 1
     glyph: List[int] = []
     for virtual_line in range(virtual_height - 1, -1, -1):
         line_bits = 0
         for virtual_col in range(virtual_width - 1, -1, -1):
             bit = (number >> (virtual_col + virtual_line * virtual_width)) & 1
-            # print(virtual_col, virtual_line, virtual_col + virtual_line * virtual_width, "| ", end="")
             line_bits = (line_bits << virtual_pixel_size.w) + bit * virtual_pixel_bits
-        # print()
         line_bits = line_bits << rest_bits_count
         glyph.extend([line_bits] * virtual_pixel_size.h)
 
     bytes_in_line = actual_size.w // 8
     glyph_bytes = b""
     for line in glyph[:actual_size.h]:
-        # bin_(line, actual_size.w, actual_size.w)
         glyph_bytes += line.to_bytes(bytes_in_line, "big", signed=False)
-    # print("")
     return glyph_bytes
 
 
